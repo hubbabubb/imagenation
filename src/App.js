@@ -1,14 +1,12 @@
 import './App.css';
-import {Container, Row} from "react-bootstrap";
+import {Container,  Row} from "react-bootstrap";
+import Visualizer from "./components/visualizer/Visualizer";
 
 function App() {
     return <div className="App">
         <Container>
             <Row>
-                <h1>Imagenation</h1>
-            </Row>
-            <Row>
-
+                <Visualizer />
             </Row>
         </Container>
     </div>
