@@ -1,12 +1,15 @@
 package com.codecool.imagenation;
 
 import com.codecool.imagenation.data.Database;
-import com.codecool.imagenation.data.Theme;
+import com.codecool.imagenation.logic.Theme;
 import com.codecool.imagenation.logic.ThemeConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootTest
 class ThemeConverterTest {
@@ -22,17 +25,13 @@ class ThemeConverterTest {
         Theme red_duck = themeConverter.convertToTheme("Red dog");
 
         Assertions.assertEquals(red_duck.getColor(), database.getCOLOR().get("red"));
-        Assertions.assertEquals(red_duck.getObject(), "dog");
-        Assertions.assertEquals(red_duck.getObjectFile(), "fontawesome/solid/dog.svg");
+        Assertions.assertTrue(red_duck.getAllObjects().containsKey("dog"));
     }
 
     @Test
     public void whenGivenTextRedDogWithBorderColorYellow_ShouldReturnRedDogYellowBorderTheme() {
         Theme red_duck = themeConverter.convertToTheme("Red dog with yellow border");
 
-        Assertions.assertEquals(red_duck.getColor(), database.getCOLOR().get("red"));
-        Assertions.assertEquals(red_duck.getObject(), "dog");
-        Assertions.assertEquals(red_duck.getObjectFile(), "fontawesome/solid/dog.svg");
         Assertions.assertEquals(red_duck.getBorderColor(), database.getCOLOR().get("yellow"));
     }
 
@@ -41,7 +40,17 @@ class ThemeConverterTest {
         Theme thick_border_on_circle = themeConverter.convertToTheme("Thick border!");
 
         Assertions.assertEquals(thick_border_on_circle.getBorderWidth(), database.getBORDER_SIZE().get("thick"));
-        Assertions.assertEquals(thick_border_on_circle.getObject(), "dot-circle");
+    }
+
+    @Test
+    public void whenGivenWordBird_ShouldReturnKiwiBirdAndEarlyBirds() {
+        Theme birdTheme = themeConverter.convertToTheme("bird");
+
+        Set<String> resultKeys = new HashSet<>();
+        resultKeys.add("kiwi-bird");
+        resultKeys.add("earlybirds");
+
+        Assertions.assertEquals(birdTheme.getAllObjects().keySet(), resultKeys);
     }
 
 }

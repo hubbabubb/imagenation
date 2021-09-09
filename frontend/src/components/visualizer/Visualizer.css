@@ -1,7 +1,23 @@
+.main {
+    height: 100vh;
+}
+
 .displayCard {
-    margin-top: 100px;
+
+}
+
+.cardContainer {
+    justify-content: center;
+    display: flex;
 }
 
 .dreamInput {
-    margin-top: 100px;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 56px;
+    color: #e5e2de;
+    font-family: 'Urbanist', sans-serif;
+    padding-top: 50px;
 }

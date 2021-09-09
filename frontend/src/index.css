@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@700&display=swap');
+
 body {
+  background: rgb(99,103,101);
+  background: linear-gradient(158deg, rgba(99,103,101,1) 11%, rgba(62,63,64,1) 100%);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

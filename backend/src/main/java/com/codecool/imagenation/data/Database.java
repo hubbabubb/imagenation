@@ -41,38 +41,36 @@ public class Database {
             Map.entry("small", 100),
             Map.entry("little", 80),
             Map.entry("tiny", 50),
-            Map.entry("medium", 200),
+            Map.entry("medium", 400),
             Map.entry("regular", 200),
-            Map.entry("normal", 200),
-            Map.entry("big", 300),
+            Map.entry("normal", 350),
+            Map.entry("big", 400),
             Map.entry("giant", 400),
-            Map.entry("huge", 500),
-            Map.entry("large", 300),
+            Map.entry("huge", 550),
+            Map.entry("large", 400),
             Map.entry("massive", 500),
             Map.entry("fat", 500));
 
     private final static String[] BORDER = new String[]{"outline", "border", "stroke", "contour"};
 
     private final static Map<String, Float> BORDER_SIZE = Map.ofEntries(
-            Map.entry("thin", 0.5f),
-            Map.entry("slim", 1f),
-            Map.entry("normal", 2f),
-            Map.entry("medium", 2f),
-            Map.entry("regular", 1.5f),
-            Map.entry("thick", 3f),
-            Map.entry("crass", 3f));
+            Map.entry("thin", 2f),
+            Map.entry("slim", 5f),
+            Map.entry("thick", 10f),
+            Map.entry("crass", 15f));
 
 
     private static Map<String, String> createObjectMap() {
         Map<String, String> results = new HashMap<>();
-        List<Path> files = null;
+        List<Path> files;
         try {
-            files = listFilesUsingFilesList("src/main/resources/static/images/fontawesome");
+            files = listFilesUsingFilesList("src/main/resources/static/images");
             for (Path path : files) {
-                if (path.toFile().isFile() && FilenameUtils.getExtension(path.toFile().toString()).equals("svg")) {
+                if (path.toFile().isFile() && isSvg(path.toFile())) {
                     String object = FilenameUtils.removeExtension(path.getFileName().toString());
-                    String imagePath = path.toAbsolutePath().toString().split("static/images/")[1];
-                    results.put(object, imagePath);
+                    String imageFile = Files.readString(path);
+                    results.put(object, imageFile);
+
                 }
             }
         } catch (IOException e) {
@@ -83,7 +81,7 @@ public class Database {
     }
 
     private static List<Path> listFilesUsingFilesList(String dir) throws IOException {
-        int DEPTH = 2;
+        int DEPTH = 3;
         try (Stream<Path> stream = Files.walk(Paths.get(dir), DEPTH)) {
             return stream
                     .filter(file -> !Files.isDirectory(file))
@@ -92,10 +90,10 @@ public class Database {
     }
 
     private static boolean isSvg(File file) {
-        return FilenameUtils.getExtension(file.getName()).toLowerCase().equals("svg");
+        return FilenameUtils.getExtension(file.getName()).equals("svg");
     }
 
-    public Map<String, String> getOBJECT() {
+    public Map<String,String> getOBJECT() {
         return OBJECT;
     }
 
@@ -118,4 +116,6 @@ public class Database {
     public String[] getCOLOR_EXPRESSIONS() {
         return COLOR_EXPRESSIONS;
     }
+
+
 }

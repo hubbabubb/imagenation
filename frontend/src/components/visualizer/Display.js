@@ -1,39 +1,66 @@
-import {ReactComponent as Svg} from "../../images/svgs/regular/sun.svg";
-import {makeStyles} from "@material-ui/core";
+import React, {useState} from "react";
+import styled from "styled-components";
+import InlineSVG from 'svg-inline-react';
+import {Button, ButtonGroup, makeStyles} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
-        width: 200,
+        width: "100%",
+        position: "relative",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
 
     },
-    svg: {
-        strokeWidth: 5,
-        stroke: "black",
-        fill: "purple",
-        animation: `$anim .2s ease-in-out`,
-        transition: "color 1s",
-        '&:hover': {
-            fill: "#f00",
-        },
-    },
-    '@keyFrames anim': {
-        "0%": {
-            opacity: 0,
-            transform: "translateY(-200%)"
-        },
-        "100%": {
-            opacity: 1,
-            transform: "translateY(0)"
-        }
+    buttons: {
+        position: 'absolute',
+        display: "block",
+        left: 10,
+        top: 10,
     },
 }));
 
-export default function Display(props) {
-    let theme = useStyles();
+const CssDisplay = styled.div`
+    text-align: left;
+    color: #e5e2de;
+    padding: 100px 0 0 50px;
+    font-family: 'Monaco';
+    width: 100%;
+    height: 100%;
+    background-color: black;
+`;
 
-    return <div className={theme.root}>
-        <div>
-            <Svg className={theme.svg}/>
-        </div>
+export default function Display(props) {
+    const [display, setDisplay] = useState("display")
+    const classes = useStyles();
+    const Theme = styled.div`
+    svg {
+       width: ${(props.theme.size) + "px"};
+       fill: ${props.theme.color};
+       stroke: ${props.theme.borderColor};
+       stroke-width: ${props.theme.borderWidth + "px"}; 
+       } 
+    `;
+
+    const svgText = "svg {";
+    return <div className={classes.root}>
+        <ButtonGroup className={classes.buttons} size="small" aria-label="small outlined button group">
+            <Button onClick={() => {setDisplay("display")}} color="primary">Display</Button>
+            <Button onClick={() => {setDisplay("css")}} color="secondary">CSS</Button>
+        </ButtonGroup>
+        {display === "display" ?
+            <Theme> <InlineSVG src={props.theme.objectFile}/> </Theme>
+            :
+            <CssDisplay>
+                <p>{svgText}</p>
+                <p>&nbsp; &nbsp; width: {props.theme.size}px;</p>
+                <p>&nbsp; &nbsp; fill: {props.theme.color};</p>
+                <p>&nbsp; &nbsp; stroke: {props.theme.borderColor};</p>
+                <p>&nbsp; &nbsp; stroke-width: {props.theme.borderWidth}px;</p>
+                <p>}</p>
+            </CssDisplay>
+        }
     </div>
+
 }
